@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Evaluación Protocolo Cero Azúcar</title>
+<style>
+  body,html{margin:0;padding:0;font-family:sans-serif;background:#fafafa;color:#111;}
+  .container{max-width:500px;margin:40px auto;padding:0 18px;}
+  .progress{height:6px;width:100%;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-bottom:22px;}
+  .fill{height:100%;background:#22c55e;width:0%;transition:width .3s;}
+  .question{font-size:24px;margin-bottom:18px;text-align:center;}
+  .options button{display:block;width:100%;padding:14px;margin:8px 0;border:none;border-radius:8px;font-size:16px;cursor:pointer;background:#fff;box-shadow:0px 1px 4px rgba(0,0,0,0.1);}
+  .options button:hover{background:#f0f0f0;}
+  .footer{font-size:13px;color:#777;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="progress"><div class="fill" id="fill"></div></div>
+  <div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="footer">Responde honestamente — toma menos de 2 minutos</div>
+</div>
+
+<script>
+const questions = [
+  {q:"¿Qué buscas con Protocolo Cero Azúcar?", o:["Perder grasa","Reducir antojos","Estabilizar energía","Mejorar salud general"]},
+  {q:"¿Con qué frecuencia consumes azúcar?", o:["Varias veces al día","Una vez al día","Algunas veces a la semana","Casi nunca"]},
+  {q:"Después de comer, ¿cómo te sientes?", o:["Cansado/a","Un poco bajo/a","Normal","Con energía"]},
+  {q:"¿Tienes antojos intensos por dulce?", o:["Sí, siempre","A veces","Raramente","Nunca"]},
+  {q:"¿Duermes de forma regular?", o:["No, mal","6–7h","7–8h","Más de 8h"]},
+  {q:"¿Has hecho dietas sin resultados?", o:["Sí, muchas","Algunas","Pocas","Nunca"]},
+  {q:"¿Consumes snacks azucarados por la noche?", o:["Sí","A veces","Rara vez","No"]},
+  {q:"¿Tu energía sube y baja mucho?", o:["Sí","A veces","Poco","No"]},
+  {q:"¿Te cuesta mantener peso?", o:["Sí","A veces","Poco","No"]},
+  {q:"¿Quieres un método sostenible?", o:["Sí, urgente","Sí","Tal vez","No estoy seguro"]},
+];
+
+let current = 0;
+function render(){
+  const item = questions[current];
+  document.getElementById('question').textContent = item.q;
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  item.o.forEach(answer => {
+    const btn = document.createElement('button');
+    btn.textContent = answer;
+    btn.onclick = () => next();
+    opts.appendChild(btn);
+  });
+  document.getElementById('fill').style.width = `${((current)/questions.length)*100}%`;
+}
+function next(){
+  if(current < questions.length -1){
+    current++;
+    render();
+  } else {
+    document.getElementById('quiz').innerHTML = `
+      <h2 style="text-align:center;">¡Gracias!</h2>
+      <p style="text-align:center;">Basado en tus respuestas, el <b>Protocolo Cero Azúcar</b> puede ayudarte a alcanzar tus objetivos.</p>
+      <div style="text-align:center;margin-top:18px;">
+        <a href="TU_LINK_DE_CHECKOUT_AQUI" style="display:inline-block;padding:14px 22px;background:#22c55e;color:#fff;border-radius:8px;text-decoration:none;font-size:16px;">Ver mi protocolo →</a>
+      </div>`;
+  }
+}
+render();
+</script>
+</body>
+</html>
